@@ -143,6 +143,22 @@
     border-radius: 8px; padding: 16px 20px; margin: 20px 0;
   }
   .key-insight strong { color: var(--accent); }
+
+  .plan-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 18px 22px; margin-bottom: 12px;
+  }
+  .plan-card-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; flex-wrap: wrap; }
+  .plan-title { flex: 1; min-width: 200px; }
+  .plan-title strong { font-size: 17px; display: block; }
+  .plan-cat { font-size: 13px; color: var(--text-dim); }
+  .plan-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; padding: 12px 0;
+                border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+  .plan-stats > div { display: flex; flex-direction: column; gap: 2px; }
+  .plan-stats .l { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.3px; }
+  .plan-stats strong { font-size: 17px; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .plan-appl .l { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.3px; }
+  @media (max-width: 800px) { .plan-stats { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
@@ -196,10 +212,6 @@
       <div class="case-stat">
         <span class="v">8</span>
         <span class="l">брендов</span>
-      </div>
-      <div class="case-stat">
-        <span class="v">1 805 ₽</span>
-        <span class="l">опт-цена</span>
       </div>
       <div class="case-stat">
         <span class="v">+ Toyota RAV4</span>
@@ -312,39 +324,11 @@
 
   <h3 style="margin-top: 24px; color: var(--accent-2);">🌍 Фронт 1: Иномарки legacy (массовый парк, конвейер уже остановлен)</h3>
   <p class="dim" style="margin-bottom: 12px;">Машин на дорогах огромно, новые не продаются — но запчасти будут нужны ещё 8–10 лет. Денежный поток здесь и сейчас.</p>
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Модель авто</th>
-        <th>Какая запчасть</th>
-        <th class="num">Машин в РФ</th>
-        <th class="num">Продано в 2025</th>
-        <th class="num">Спрашивали</th>
-        <th>Запуск</th>
-        <th>Оценка</th>
-      </tr>
-    </thead>
-    <tbody id="planForeign"></tbody>
-  </table>
+  <div id="planForeign"></div>
 
   <h3 style="margin-top: 32px; color: var(--accent);">🇨🇳 Фронт 2: Китайцы новые (растущий рынок 2026+)</h3>
   <p class="dim" style="margin-bottom: 12px;">Парк меньше, но активно растёт. Через 2–3 года эти машины пойдут в массовый ремонт — нужно успеть с SKU.</p>
-  <table>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Модель авто</th>
-        <th>Какая запчасть</th>
-        <th class="num">Машин в РФ</th>
-        <th class="num">Продано в 2025</th>
-        <th class="num">Спрашивали</th>
-        <th>Запуск</th>
-        <th>Оценка</th>
-      </tr>
-    </thead>
-    <tbody id="planChinese"></tbody>
-  </table>
+  <div id="planChinese"></div>
   <div class="key-insight">
     <strong>Стратегия двух фронтов:</strong> по 5 SKU на каждом направлении в течение 2026 года. <strong>Иномарки legacy</strong> — деньги уже сейчас (Renault Duster, Vesta, Kaptur). <strong>Китайцы новые</strong> — закрепляем долю на растущем рынке (Haval Jolion и H6 — лидеры продаж 2025, у нас под них нет шаровых и наконечников). Главный приоритет квартала — Renault Duster наконечники (7 прямых упоминаний клиентов) и Haval Jolion шаровые (50k продаж в 2025).
   </div>
@@ -443,23 +427,33 @@ const DEMAND_TOP = [
   ["Nissan Qashqai", "шаровые", 190, true],
   ["Volkswagen Polo", "стойки", 170, true]
 ];
-// Иномарки legacy — топ-5 (проверено: ни одной нет в каталоге)
-// dem — суммарные упоминания модели за 2025 (горячая линия + чаты + МП).
+// Иномарки legacy — топ-5
+// applicability — модели, которые покроет один SKU (общая платформа/геометрия)
 const PLAN_FOREIGN = [
-  {n:1, brand:"Renault", model:"Duster", cat:"наконечники", park:null, sales:null, dem:850, q:"Q3 2026", score:0.778},
-  {n:2, brand:"LADA", model:"Vesta", cat:"наконечники", park:750000, sales:95000, dem:580, q:"Q3 2026", score:0.603},
-  {n:3, brand:"Renault", model:"Kaptur", cat:"шаровые", park:220000, sales:null, dem:470, q:"Q3 2026", score:0.568},
-  {n:4, brand:"Volkswagen", model:"Polo", cat:"шаровые", park:650000, sales:null, dem:360, q:"Q4 2026", score:0.371},
-  {n:5, brand:"KIA", model:"Rio", cat:"наконечники", park:950000, sales:null, dem:290, q:"Q4 2026", score:0.300}
+  {n:1, brand:"Renault", model:"Duster", cat:"наконечники", park:null, sales:null, dem:850, q:"Q3 2026", score:0.778,
+   applicability:["Renault Duster I/II","Renault Sandero","Renault Logan","Nissan Terrano III","LADA Largus"]},
+  {n:2, brand:"LADA", model:"Vesta", cat:"наконечники", park:750000, sales:95000, dem:580, q:"Q3 2026", score:0.603,
+   applicability:["LADA Vesta sedan","LADA Vesta SW","LADA Vesta SW Cross","LADA Vesta Cross","LADA Vesta NG"]},
+  {n:3, brand:"Renault", model:"Kaptur", cat:"шаровые", park:220000, sales:null, dem:470, q:"Q3 2026", score:0.568,
+   applicability:["Renault Kaptur","Renault Arkana","Renault Duster II","Nissan Juke II"]},
+  {n:4, brand:"Volkswagen", model:"Polo", cat:"шаровые", park:650000, sales:null, dem:360, q:"Q4 2026", score:0.371,
+   applicability:["VW Polo sedan","VW Polo liftback","Skoda Rapid","Skoda Fabia","Audi A1","SEAT Ibiza"]},
+  {n:5, brand:"KIA", model:"Rio", cat:"наконечники", park:950000, sales:null, dem:290, q:"Q4 2026", score:0.300,
+   applicability:["KIA Rio III/IV","KIA Rio X","Hyundai Solaris I/II","Hyundai Accent"]}
 ];
 
-// Китайцы новые — топ-5 (проверено: ни одной нет в каталоге)
+// Китайцы новые — топ-5
 const PLAN_CHINESE = [
-  {n:1, brand:"Haval", model:"Jolion", cat:"шаровые", park:180000, sales:50000, dem:420, q:"Q3 2026", score:0.500},
-  {n:2, brand:"Haval", model:"Jolion", cat:"наконечники", park:180000, sales:50000, dem:380, q:"Q3 2026", score:0.500},
-  {n:3, brand:"Haval", model:"H6", cat:"шаровые", park:150000, sales:25000, dem:290, q:"Q3 2026", score:0.323},
-  {n:4, brand:"Chery", model:"Tiggo 7 Pro", cat:"шаровые", park:110000, sales:40000, dem:220, q:"Q4 2026", score:0.309},
-  {n:5, brand:"Geely", model:"Coolray", cat:"шаровые", park:120000, sales:20000, dem:170, q:"Q4 2026", score:0.238}
+  {n:1, brand:"Haval", model:"Jolion", cat:"шаровые", park:180000, sales:50000, dem:420, q:"Q3 2026", score:0.500,
+   applicability:["Haval Jolion","Haval Dargo","Haval Jolion Pro","Haval Jolion HEV"]},
+  {n:2, brand:"Haval", model:"Jolion", cat:"наконечники", park:180000, sales:50000, dem:380, q:"Q3 2026", score:0.500,
+   applicability:["Haval Jolion","Haval Dargo","Haval Jolion Pro","Haval Jolion HEV"]},
+  {n:3, brand:"Haval", model:"H6", cat:"шаровые", park:150000, sales:25000, dem:290, q:"Q3 2026", score:0.323,
+   applicability:["Haval H6","Haval F7","Haval F7x","Haval H9","Haval Dargo X"]},
+  {n:4, brand:"Chery", model:"Tiggo 7 Pro", cat:"шаровые", park:110000, sales:40000, dem:220, q:"Q4 2026", score:0.309,
+   applicability:["Chery Tiggo 7 Pro","Chery Tiggo 7","Chery Tiggo 8","OMODA C5","EXEED LX","JAECOO J7"]},
+  {n:5, brand:"Geely", model:"Coolray", cat:"шаровые", park:120000, sales:20000, dem:170, q:"Q4 2026", score:0.238,
+   applicability:["Geely Coolray","Geely Atlas Pro","Belgee X50","Volvo XC40"]}
 ];
 
 // ──────── Стили Chart.js ────────
@@ -505,23 +499,35 @@ new Chart(document.getElementById('chartDemand'), {
   options: chartCommon
 });
 
-// ──────── Таблицы плана 2026 (2 фронта) ────────
-function renderPlan(tbodyId, rows) {
-  const tbody = document.getElementById(tbodyId);
+// ──────── Карточки плана 2026 (2 фронта) ────────
+function renderPlan(containerId, rows) {
+  const container = document.getElementById(containerId);
   rows.forEach(r => {
     const qClass = r.q.startsWith('Q3') ? 'q3' : r.q.startsWith('Q4') ? 'q4' : 'qres';
     const fmt = v => v ? v.toLocaleString('ru-RU') : '—';
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td><span class="priority pri-${r.n}">${r.n}</span></td>
-      <td><strong>${r.brand} ${r.model}</strong></td>
-      <td>${r.cat}</td>
-      <td class="num">${fmt(r.park)}</td>
-      <td class="num">${fmt(r.sales)}</td>
-      <td class="num">${r.dem}</td>
-      <td><span class="quarter-tag ${qClass}">${r.q}</span></td>
-      <td class="num"><strong>${r.score.toFixed(3)}</strong></td>`;
-    tbody.appendChild(row);
+    const chips = (r.applicability || []).map(m => `<span class="brand-chip highlight">${m}</span>`).join('');
+    const card = document.createElement('div');
+    card.className = 'plan-card';
+    card.innerHTML = `
+      <div class="plan-card-head">
+        <span class="priority pri-${r.n}">${r.n}</span>
+        <div class="plan-title">
+          <strong>${r.brand} ${r.model}</strong>
+          <span class="plan-cat">${r.cat}</span>
+        </div>
+        <span class="quarter-tag ${qClass}">${r.q}</span>
+      </div>
+      <div class="plan-stats">
+        <div><span class="l">Машин в РФ</span><strong>${fmt(r.park)}</strong></div>
+        <div><span class="l">Продано в 2025</span><strong>${fmt(r.sales)}</strong></div>
+        <div><span class="l">Запросов клиентов</span><strong>${r.dem}</strong></div>
+        <div><span class="l">Оценка приоритета</span><strong>${r.score.toFixed(3)}</strong></div>
+      </div>
+      <div class="plan-appl">
+        <span class="l">Применяемость одного SKU (${r.applicability.length} моделей):</span>
+        <div class="brand-list" style="margin-top: 6px;">${chips}</div>
+      </div>`;
+    container.appendChild(card);
   });
 }
 renderPlan('planForeign', PLAN_FOREIGN);
