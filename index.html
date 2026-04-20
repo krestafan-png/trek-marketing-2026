@@ -345,51 +345,51 @@
 // ──────── Данные для графиков ────────
 // Модели объединены по общей платформе/шасси — один столбик = один SKU-кандидат.
 
-// Китайские бренды
+// Китайские бренды — модели на одной платформе/семействе платформ
 const CHINA_SALES = [
-  ["Chery Tiggo 7+8 + OMODA C5 + EXEED LX (T1X)", 116000],
-  ["Haval Jolion + Dargo (LEMON)", 66000],
+  ["Chery Tiggo 7+8 + OMODA C5 + EXEED LX + JAECOO J7 (T1X)", 116000],
+  ["Haval Jolion / Jolion Pro (L.E.M.O.N)", 50000],
+  ["Haval H6 + F7 + Dargo (Big L.E.M.O.N)", 41000],
   ["Geely Coolray + Belgee X50 (BMA)", 55000],
-  ["Chery Tiggo 4/2/3 (старая платформа)", 36000],
-  ["Haval H6 + F7 + H9 (LEMON B+)", 39000],
-  ["JAECOO J7 (T1X)", 22000],
+  ["Chery Tiggo 4 (старая платформа A1)", 18000],
   ["Belgee X70 + Geely Atlas (CMA)", 32000],
-  ["Tank 300+500 (Tank P71)", 18500]
+  ["Changan CS35 Plus + CS55 (Changan)", 22000],
+  ["Tank 300 + 500 (P71, рамная)", 18500]
 ];
 const CHINA_PARK = [
   ["Chery Tiggo 7+8 + OMODA + EXEED + JAECOO (T1X)", 320000],
-  ["Haval Jolion + Dargo (LEMON)", 220000],
+  ["Haval Jolion / Jolion Pro (L.E.M.O.N)", 180000],
+  ["Haval H6 + F7 + Dargo (Big L.E.M.O.N)", 230000],
   ["Geely Coolray + Belgee X50 (BMA)", 200000],
-  ["Haval H6 + F7 + H9 (LEMON B+)", 200000],
-  ["Chery Tiggo 4/2/3 (старая)", 110000],
+  ["Chery Tiggo 4 (A1)", 100000],
   ["Belgee X70 + Geely Atlas (CMA)", 80000],
-  ["Changan CS35 Plus + CS55 (CA)", 75000],
-  ["Tank 300+500 (P71)", 53000]
+  ["Changan CS35 Plus + CS55", 75000],
+  ["Tank 300 + 500 (P71)", 53000]
 ];
 
-// Иномарки legacy — модели на одной платформе как один кандидат-SKU
+// Иномарки снятые с конвейера — модели на общей платформе
 const LEGACY_SALES = [
-  ["KIA Rio + Hyundai Solaris (BC)", 70000],
-  ["VW Polo + Skoda Rapid + Fabia (MQB-A0)", 22000],
-  ["Renault Duster + Logan + LADA Largus (B0)", 60000],
-  ["KIA Sportage + Hyundai Tucson (NU)", 17000],
+  ["KIA Rio + Hyundai Solaris (Hyundai-Kia BC)", 70000],
+  ["Renault Duster I + Logan + Sandero + LADA Largus + Nissan Terrano (B0)", 60000],
+  ["VW Polo седан + Skoda Rapid (PQ25)", 18000],
   ["Renault Kaptur + Arkana (CMF-B)", 22500],
+  ["KIA Sportage + Hyundai Tucson (Hyundai-Kia NU)", 17000],
+  ["VW Tiguan + Skoda Kodiaq + Karoq (MQB-A)", 5300],
   ["Toyota Camry XV70 (TNGA-K)", 8500],
-  ["Toyota RAV4 + Highlander (TNGA-K SUV)", 5500],
-  ["Toyota LC + Prado (TNGA-F)", 4500],
-  ["VW Tiguan + Skoda Kodiaq + Karoq (MQB)", 5300]
+  ["Toyota RAV4 (TNGA-K SUV)", 4500],
+  ["Toyota Land Cruiser + Prado (TNGA-F)", 4500]
 ];
 const LEGACY_PARK = [
-  ["KIA Rio + Hyundai Solaris (BC)", 1750000],
-  ["VW Polo + Skoda Rapid + Audi A1 (MQB-A0)", 800000],
-  ["Renault Duster + Logan + LADA Largus (B0)", 950000],
-  ["Toyota RAV4 + Highlander", 530000],
-  ["Toyota Camry XV40-XV70", 420000],
+  ["KIA Rio + Hyundai Solaris (Hyundai-Kia BC)", 1750000],
+  ["Renault Duster I + Logan + Sandero + Largus (B0)", 950000],
+  ["VW Polo седан + Skoda Rapid (PQ25)", 700000],
   ["Renault Kaptur + Arkana + Duster II (CMF-B)", 600000],
   ["Nissan Qashqai + X-Trail (CMF-CD)", 630000],
+  ["Toyota RAV4 + Highlander (MC/TNGA-K)", 530000],
+  ["Toyota Camry XV40–XV70", 420000],
   ["KIA Sportage + Hyundai Tucson (NU)", 330000],
-  ["Mazda CX-5 + 6 (Skyactiv)", 320000],
-  ["Toyota LC + Prado (TNGA-F)", 250000]
+  ["Mazda CX-5 + Mazda 6 (Skyactiv)", 320000],
+  ["Toyota Land Cruiser + Prado (J100/J200/J300)", 250000]
 ];
 // Топ-15 запросов клиентов за 2025 — суммарно по модели (с учётом всех каналов
 // и контекстов: горячая линия + чаты + МП + отзывы). Поле have: true = SKU есть.
@@ -415,7 +415,7 @@ const DEMAND_TOP = [
 const PLAN_FOREIGN = [
   {n:1, brand:"Renault", model:"Duster", cat:"наконечники", park:null, sales:48000, dem:850, q:"Q3 2026", score:0.778,
    platform:"Renault-Nissan B0",
-   applicability:["Renault Duster I/II","Renault Sandero","Renault Logan","Nissan Terrano III","LADA Largus","Dacia Logan"]},
+   applicability:["Renault Duster I","Renault Sandero","Renault Logan","Nissan Terrano III","LADA Largus"]},
   {n:2, brand:"LADA", model:"Vesta", cat:"наконечники", park:750000, sales:95000, dem:580, q:"Q3 2026", score:0.603,
    platform:"LADA Vesta (B-class)",
    applicability:["LADA Vesta sedan","LADA Vesta SW","LADA Vesta SW Cross","LADA Vesta Cross","LADA Vesta NG"]},
@@ -423,8 +423,8 @@ const PLAN_FOREIGN = [
    platform:"Renault-Nissan CMF-B / B0+",
    applicability:["Renault Kaptur","Renault Arkana","Renault Duster II","Nissan Juke II","Dacia Sandero III"]},
   {n:4, brand:"Volkswagen", model:"Polo", cat:"шаровые", park:650000, sales:72000, dem:360, q:"Q4 2026", score:0.371,
-   platform:"VW Group MQB-A0 / PQ25",
-   applicability:["VW Polo sedan","VW Polo liftback","Skoda Rapid","Skoda Fabia","Audi A1","SEAT Ibiza"]},
+   platform:"VW Group PQ25",
+   applicability:["VW Polo sedan","Skoda Rapid I","Skoda Rapid II"]},
   {n:5, brand:"KIA", model:"Rio", cat:"наконечники", park:950000, sales:105000, dem:290, q:"Q4 2026", score:0.300,
    platform:"Hyundai-Kia BC / K2",
    applicability:["KIA Rio III/IV","KIA Rio X","Hyundai Solaris I/II","Hyundai Accent","Hyundai i20"]}
@@ -434,19 +434,19 @@ const PLAN_FOREIGN = [
 const PLAN_CHINESE = [
   {n:1, brand:"Haval", model:"Jolion", cat:"шаровые", park:180000, sales:50000, dem:420, q:"Q3 2026", score:0.500,
    platform:"GWM L.E.M.O.N",
-   applicability:["Haval Jolion","Haval Jolion Pro","Haval Jolion HEV","Haval Dargo (LEMON)"]},
+   applicability:["Haval Jolion","Haval Jolion Pro","Haval Jolion HEV"]},
   {n:2, brand:"Haval", model:"Jolion", cat:"наконечники", park:180000, sales:50000, dem:380, q:"Q3 2026", score:0.500,
    platform:"GWM L.E.M.O.N",
-   applicability:["Haval Jolion","Haval Jolion Pro","Haval Jolion HEV","Haval Dargo (LEMON)"]},
+   applicability:["Haval Jolion","Haval Jolion Pro","Haval Jolion HEV"]},
   {n:3, brand:"Haval", model:"H6", cat:"шаровые", park:150000, sales:25000, dem:290, q:"Q3 2026", score:0.323,
-   platform:"GWM L.E.M.O.N (B+)",
-   applicability:["Haval H6","Haval F7","Haval F7x","Haval H9","Haval Dargo X","Tank 300 (близкая)"]},
+   platform:"GWM L.E.M.O.N (B+, Big Lemon)",
+   applicability:["Haval H6","Haval F7","Haval F7x","Haval Dargo"]},
   {n:4, brand:"Chery", model:"Tiggo 7 Pro", cat:"шаровые", park:110000, sales:40000, dem:220, q:"Q4 2026", score:0.309,
    platform:"Chery T1X",
    applicability:["Chery Tiggo 7 Pro","Chery Tiggo 7","Chery Tiggo 8","OMODA C5","EXEED LX","JAECOO J7"]},
   {n:5, brand:"Geely", model:"Coolray", cat:"шаровые", park:120000, sales:20000, dem:170, q:"Q4 2026", score:0.238,
    platform:"Geely BMA",
-   applicability:["Geely Coolray","Geely Atlas Pro","Belgee X50","Volvo XC40 (CMA)"]}
+   applicability:["Geely Coolray","Belgee X50"]}
 ];
 
 // ──────── Стили Chart.js ────────
