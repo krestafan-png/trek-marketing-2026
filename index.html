@@ -275,11 +275,11 @@
   <div class="card" style="background: var(--surface-2); margin-bottom: 12px; padding: 14px 18px; font-size: 13px; color: var(--text-dim);">
     <strong style="color: var(--text);">Как читать карточки:</strong>
     <ul style="padding-left: 20px; margin-top: 6px;">
-      <li><strong style="color: var(--text);">Платформы авто</strong> — сколько разных моделей покроет один SKU за счёт общей геометрии посадки. Чем больше — тем экономически выгоднее разработка.</li>
+      <li><strong style="color: var(--text);">Платформа авто</strong> — общее шасси, на котором сидят несколько моделей. Например, Renault-Nissan B0 = Logan, Sandero, Duster, Largus, Terrano. Один SKU под платформу окупается на десятках моделей.</li>
       <li><strong style="color: var(--text);">Продано в 2025</strong> — сколько новых машин этой модели продано за год. Будущая база на запчасти через 2–3 года.</li>
       <li><strong style="color: var(--text);">Запросов клиентов</strong> — суммарно из чатов, маркетплейсов, отзывов и горячей линии за 2025.</li>
       <li><strong style="color: var(--text);">Оценка</strong> — итоговый балл приоритета от 0 до 1: 50% — спрос, 30% — парк, 20% — продажи.</li>
-      <li><strong style="color: var(--text);">Полный список моделей под каждым SKU</strong> — внизу карточки в виде чипов.</li>
+      <li><strong style="color: var(--text);">Внизу карточки</strong> — список конкретных моделей, которые покроет один SKU.</li>
       <li><strong style="color: var(--text);">Все 10 позиций проверены</strong> — ни одной нет в действующем прайсе ТРЕК.</li>
     </ul>
   </div>
@@ -390,32 +390,42 @@ const DEMAND_TOP = [
   ["Volkswagen Polo", "стойки", 170, true]
 ];
 // Иномарки legacy — топ-5
-// applicability — модели, которые покроет один SKU (общая платформа/геометрия)
+// platform — шасси/архитектура, applicability — модели, висящие на ней
 const PLAN_FOREIGN = [
   {n:1, brand:"Renault", model:"Duster", cat:"наконечники", park:null, sales:null, dem:850, q:"Q3 2026", score:0.778,
-   applicability:["Renault Duster I/II","Renault Sandero","Renault Logan","Nissan Terrano III","LADA Largus"]},
+   platform:"Renault-Nissan B0",
+   applicability:["Renault Duster I/II","Renault Sandero","Renault Logan","Nissan Terrano III","LADA Largus","Dacia Logan"]},
   {n:2, brand:"LADA", model:"Vesta", cat:"наконечники", park:750000, sales:95000, dem:580, q:"Q3 2026", score:0.603,
+   platform:"LADA Vesta (B-class)",
    applicability:["LADA Vesta sedan","LADA Vesta SW","LADA Vesta SW Cross","LADA Vesta Cross","LADA Vesta NG"]},
   {n:3, brand:"Renault", model:"Kaptur", cat:"шаровые", park:220000, sales:null, dem:470, q:"Q3 2026", score:0.568,
-   applicability:["Renault Kaptur","Renault Arkana","Renault Duster II","Nissan Juke II"]},
+   platform:"Renault-Nissan CMF-B / B0+",
+   applicability:["Renault Kaptur","Renault Arkana","Renault Duster II","Nissan Juke II","Dacia Sandero III"]},
   {n:4, brand:"Volkswagen", model:"Polo", cat:"шаровые", park:650000, sales:null, dem:360, q:"Q4 2026", score:0.371,
+   platform:"VW Group MQB-A0 / PQ25",
    applicability:["VW Polo sedan","VW Polo liftback","Skoda Rapid","Skoda Fabia","Audi A1","SEAT Ibiza"]},
   {n:5, brand:"KIA", model:"Rio", cat:"наконечники", park:950000, sales:null, dem:290, q:"Q4 2026", score:0.300,
-   applicability:["KIA Rio III/IV","KIA Rio X","Hyundai Solaris I/II","Hyundai Accent"]}
+   platform:"Hyundai-Kia BC / K2",
+   applicability:["KIA Rio III/IV","KIA Rio X","Hyundai Solaris I/II","Hyundai Accent","Hyundai i20"]}
 ];
 
 // Китайцы новые — топ-5
 const PLAN_CHINESE = [
   {n:1, brand:"Haval", model:"Jolion", cat:"шаровые", park:180000, sales:50000, dem:420, q:"Q3 2026", score:0.500,
-   applicability:["Haval Jolion","Haval Dargo","Haval Jolion Pro","Haval Jolion HEV"]},
+   platform:"GWM L.E.M.O.N",
+   applicability:["Haval Jolion","Haval Jolion Pro","Haval Jolion HEV","Haval Dargo (LEMON)"]},
   {n:2, brand:"Haval", model:"Jolion", cat:"наконечники", park:180000, sales:50000, dem:380, q:"Q3 2026", score:0.500,
-   applicability:["Haval Jolion","Haval Dargo","Haval Jolion Pro","Haval Jolion HEV"]},
+   platform:"GWM L.E.M.O.N",
+   applicability:["Haval Jolion","Haval Jolion Pro","Haval Jolion HEV","Haval Dargo (LEMON)"]},
   {n:3, brand:"Haval", model:"H6", cat:"шаровые", park:150000, sales:25000, dem:290, q:"Q3 2026", score:0.323,
-   applicability:["Haval H6","Haval F7","Haval F7x","Haval H9","Haval Dargo X"]},
+   platform:"GWM L.E.M.O.N (B+)",
+   applicability:["Haval H6","Haval F7","Haval F7x","Haval H9","Haval Dargo X","Tank 300 (близкая)"]},
   {n:4, brand:"Chery", model:"Tiggo 7 Pro", cat:"шаровые", park:110000, sales:40000, dem:220, q:"Q4 2026", score:0.309,
+   platform:"Chery T1X",
    applicability:["Chery Tiggo 7 Pro","Chery Tiggo 7","Chery Tiggo 8","OMODA C5","EXEED LX","JAECOO J7"]},
   {n:5, brand:"Geely", model:"Coolray", cat:"шаровые", park:120000, sales:20000, dem:170, q:"Q4 2026", score:0.238,
-   applicability:["Geely Coolray","Geely Atlas Pro","Belgee X50","Volvo XC40"]}
+   platform:"Geely BMA",
+   applicability:["Geely Coolray","Geely Atlas Pro","Belgee X50","Volvo XC40 (CMA)"]}
 ];
 
 // ──────── Стили Chart.js ────────
@@ -480,13 +490,13 @@ function renderPlan(containerId, rows) {
         <span class="quarter-tag ${qClass}">${r.q}</span>
       </div>
       <div class="plan-stats">
-        <div><span class="l">Платформы авто</span><strong>${r.applicability.length}</strong></div>
+        <div><span class="l">Платформа авто</span><strong style="font-size: 14px; line-height: 1.2;">${r.platform}</strong></div>
         <div><span class="l">Продано в 2025</span><strong>${fmt(r.sales)}</strong></div>
         <div><span class="l">Запросов клиентов</span><strong>${r.dem}</strong></div>
         <div><span class="l">Оценка приоритета</span><strong>${r.score.toFixed(3)}</strong></div>
       </div>
       <div class="plan-appl">
-        <span class="l">Применяемость одного SKU (${r.applicability.length} моделей):</span>
+        <span class="l">Один SKU покроет ${r.applicability.length} моделей на этой платформе:</span>
         <div class="brand-list" style="margin-top: 6px;">${chips}</div>
       </div>`;
     container.appendChild(card);
