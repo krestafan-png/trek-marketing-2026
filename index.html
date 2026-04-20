@@ -234,7 +234,7 @@
   </div>
 
   <div class="key-insight">
-    <strong>Два разных рынка:</strong> у китайцев лидеры продаж 2025 — Haval Jolion (50k) и Chery Tiggo 7 Pro (40k); парк ещё небольшой, но активно растёт. У легаси-иномарок наоборот: KIA Rio (950k парк), Hyundai Solaris (800k), VW Polo (650k) — конвейер остановлен, но огромная база владельцев продолжит покупать запчасти ещё 8–10 лет. Это два разных стратегических фронта.
+    <strong>Цифры объединены по платформам</strong> (одно шасси = один SKU). У легаси-иномарок лидер — связка <strong>KIA Rio + Hyundai Solaris</strong> на платформе BC: 1.75 млн машин в парке РФ. <strong>Renault Duster + Logan + Largus</strong> (платформа B0) — 950 тыс. <strong>VW Polo + Skoda Rapid + Audi A1</strong> (MQB-A0) — 800 тыс. У китайцев топ — <strong>Chery Tiggo 7+8 + OMODA C5 + EXEED LX + JAECOO J7</strong> (T1X): 320 тыс. парка и 116 тыс. продаж в 2025. Чем больше моделей на платформе — тем выгоднее разработать SKU.
   </div>
 
   <!-- Запросы на горячую линию -->
@@ -343,32 +343,53 @@
 
 <script>
 // ──────── Данные для графиков ────────
+// Модели объединены по общей платформе/шасси — один столбик = один SKU-кандидат.
+
 // Китайские бренды
 const CHINA_SALES = [
-  ["Haval Jolion", 50000], ["Chery Tiggo 7 Pro", 40000], ["Belgee X50", 35000],
-  ["Haval H6", 25000], ["JAECOO J7", 22000], ["Geely Coolray", 20000],
-  ["OMODA C5", 18000], ["Belgee X70", 18000], ["Chery Tiggo 4", 18000],
-  ["Haval Dargo", 16000], ["EXEED LX", 15000], ["Geely Monjaro", 14000]
+  ["Chery Tiggo 7+8 + OMODA C5 + EXEED LX (T1X)", 116000],
+  ["Haval Jolion + Dargo (LEMON)", 66000],
+  ["Geely Coolray + Belgee X50 (BMA)", 55000],
+  ["Chery Tiggo 4/2/3 (старая платформа)", 36000],
+  ["Haval H6 + F7 + H9 (LEMON B+)", 39000],
+  ["JAECOO J7 (T1X)", 22000],
+  ["Belgee X70 + Geely Atlas (CMA)", 32000],
+  ["Tank 300+500 (Tank P71)", 18500]
 ];
 const CHINA_PARK = [
-  ["Haval Jolion", 180000], ["Haval H6", 150000], ["Geely Coolray", 120000],
-  ["Chery Tiggo 7 Pro", 110000], ["Chery Tiggo 4", 100000], ["Belgee X50", 80000],
-  ["Changan CS35 Plus", 65000], ["OMODA C5", 60000], ["JAECOO J7", 40000],
-  ["Tank 300", 35000], ["Geely Monjaro", 30000], ["Tank 500", 18000]
+  ["Chery Tiggo 7+8 + OMODA + EXEED + JAECOO (T1X)", 320000],
+  ["Haval Jolion + Dargo (LEMON)", 220000],
+  ["Geely Coolray + Belgee X50 (BMA)", 200000],
+  ["Haval H6 + F7 + H9 (LEMON B+)", 200000],
+  ["Chery Tiggo 4/2/3 (старая)", 110000],
+  ["Belgee X70 + Geely Atlas (CMA)", 80000],
+  ["Changan CS35 Plus + CS55 (CA)", 75000],
+  ["Tank 300+500 (P71)", 53000]
 ];
 
-// Иномарки legacy (Корея/Япония/Европа)
+// Иномарки legacy — модели на одной платформе как один кандидат-SKU
 const LEGACY_SALES = [
-  ["KIA Sportage", 9000], ["Toyota Camry", 8500], ["Hyundai Tucson", 8000],
-  ["KIA Seltos", 7000], ["Hyundai Sonata", 6000], ["KIA K5", 5000],
-  ["Renault Arkana", 4500], ["Toyota RAV4", 4500], ["Toyota Land Cruiser", 3500],
-  ["Volkswagen Tiguan", 2000], ["Skoda Kodiaq", 1800], ["Skoda Karoq", 1500]
+  ["KIA Rio + Hyundai Solaris (BC)", 70000],
+  ["VW Polo + Skoda Rapid + Fabia (MQB-A0)", 22000],
+  ["Renault Duster + Logan + LADA Largus (B0)", 60000],
+  ["KIA Sportage + Hyundai Tucson (NU)", 17000],
+  ["Renault Kaptur + Arkana (CMF-B)", 22500],
+  ["Toyota Camry XV70 (TNGA-K)", 8500],
+  ["Toyota RAV4 + Highlander (TNGA-K SUV)", 5500],
+  ["Toyota LC + Prado (TNGA-F)", 4500],
+  ["VW Tiguan + Skoda Kodiaq + Karoq (MQB)", 5300]
 ];
 const LEGACY_PARK = [
-  ["KIA Rio", 950000], ["Hyundai Solaris", 800000], ["Volkswagen Polo", 650000],
-  ["Toyota RAV4", 480000], ["Toyota Camry", 420000], ["Nissan Qashqai", 350000],
-  ["Mazda CX-5", 280000], ["Nissan X-Trail", 280000], ["Toyota Land Cruiser", 250000],
-  ["Renault Kaptur", 220000], ["Renault Arkana", 180000], ["KIA Sportage", 180000]
+  ["KIA Rio + Hyundai Solaris (BC)", 1750000],
+  ["VW Polo + Skoda Rapid + Audi A1 (MQB-A0)", 800000],
+  ["Renault Duster + Logan + LADA Largus (B0)", 950000],
+  ["Toyota RAV4 + Highlander", 530000],
+  ["Toyota Camry XV40-XV70", 420000],
+  ["Renault Kaptur + Arkana + Duster II (CMF-B)", 600000],
+  ["Nissan Qashqai + X-Trail (CMF-CD)", 630000],
+  ["KIA Sportage + Hyundai Tucson (NU)", 330000],
+  ["Mazda CX-5 + 6 (Skyactiv)", 320000],
+  ["Toyota LC + Prado (TNGA-F)", 250000]
 ];
 // Топ-15 запросов клиентов за 2025 — суммарно по модели (с учётом всех каналов
 // и контекстов: горячая линия + чаты + МП + отзывы). Поле have: true = SKU есть.
