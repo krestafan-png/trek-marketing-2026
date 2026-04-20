@@ -288,7 +288,7 @@
     <canvas id="chartDemand"></canvas>
   </div>
   <div class="key-insight">
-    <strong>Что видно:</strong> На графике — топ-15 упоминаний по моделям, на которые у ТРЕК <strong>нет SKU</strong> (модели с полным покрытием — LADA Niva, Granta, Largus — отфильтрованы, чтобы не путать). Renault Duster шаровые — 166 упоминаний за год, явный спрос. KIA Rio, Hyundai Solaris, Renault Kaptur — стабильно в топе. Эти данные + парк РФ формируют наш план разработок.
+    <strong>Что видно:</strong> На графике — только <strong>истинные пробелы</strong>: модели, по которым клиенты пишут вопросы/отзывы, а SKU в нашем каталоге нет. Лидер — Renault Kaptur шаровые (9 упоминаний), на втором месте Renault Duster наконечники (7). Цифры в этом разделе небольшие — это нормально: клиенты редко прямо пишут «модель + название детали», поэтому весь демандный сигнал даёт ~50 чётких упоминаний. Решающую роль в плане играет Автостат (парк + продажи), а деманд — это валидатор «да, эта модель действительно нужна клиентам».
   </div>
 
   <!-- План 2026 -->
@@ -419,24 +419,24 @@ const LEGACY_PARK = [
   ["Mazda CX-5", 280000], ["Nissan X-Trail", 280000], ["Toyota Land Cruiser", 250000],
   ["Renault Kaptur", 220000], ["Renault Arkana", 180000], ["KIA Sportage", 180000]
 ];
-// Только модели из спроса, которых у нас НЕТ в каталоге (gap-signals).
-// LADA Niva/Largus/Granta/Vesta частично исключены — на них уже есть SKU.
+// Только ИСТИННЫЕ гэпы: спрос есть, а SKU в каталоге ТРЕК НЕТ
+// (двойная проверка через has_sku — учитывает алиасы брендов VW/Volkswagen,
+// КИА/KIA, Лада/LADA и пр.)
 const DEMAND_TOP = [
-  ["Renault Duster", "шаровые", 166],
-  ["Renault Duster", "стойки", 48],
-  ["KIA Rio", "стойки", 26],
-  ["Hyundai Solaris", "стойки", 24],
-  ["KIA Sportage", "стойки", 22],
-  ["Renault Kaptur", "стойки", 20],
-  ["Hyundai Tucson", "стойки", 19],
-  ["Renault Arkana", "стойки", 18],
-  ["Nissan Qashqai", "шаровые", 16],
-  ["Volkswagen Polo", "стойки", 16],
-  ["Volkswagen Tiguan", "стойки", 11],
-  ["Toyota Camry", "стойки", 11],
   ["Renault Kaptur", "шаровые", 9],
   ["Renault Duster", "наконечники", 7],
-  ["Volkswagen Passat", "стойки", 5]
+  ["LADA Vesta", "наконечники", 3],
+  ["Renault Arkana", "шаровые", 3],
+  ["Skoda Octavia", "шаровые", 3],
+  ["Volkswagen Polo", "шаровые", 3],
+  ["Hyundai Santa Fe", "стойки", 2],
+  ["Nissan Note", "шаровые", 2],
+  ["Toyota Corolla", "наконечники", 2],
+  ["Toyota Corolla", "шаровые", 2],
+  ["KIA Sportage", "шаровые", 1],
+  ["Renault Kaptur", "наконечники", 1],
+  ["Skoda Rapid", "шаровые", 1],
+  ["Toyota Camry", "шаровые", 1]
 ];
 // Иномарки legacy — топ-5 (проверено: ни одной нет в каталоге)
 const PLAN_FOREIGN = [
