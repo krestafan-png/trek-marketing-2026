@@ -276,7 +276,7 @@
     <strong style="color: var(--text);">Как читать карточки:</strong>
     <ul style="padding-left: 20px; margin-top: 6px;">
       <li><strong style="color: var(--text);">Платформа авто</strong> — общее шасси, на котором сидят несколько моделей. Например, Renault-Nissan B0 = Logan, Sandero, Duster, Largus, Terrano. Один SKU под платформу окупается на десятках моделей.</li>
-      <li><strong style="color: var(--text);">Продано в 2025</strong> — сколько новых машин этой модели продано за год. Будущая база на запчасти через 2–3 года.</li>
+      <li><strong style="color: var(--text);">Сделок на рынке 2025</strong> — для китайцев это продажи новых, для legacy-иномарок (конвейер остановлен) — вторичка + остатки. Показывает реальную активность модели на рынке за год.</li>
       <li><strong style="color: var(--text);">Запросов клиентов</strong> — суммарно из чатов, маркетплейсов, отзывов и горячей линии за 2025.</li>
       <li><strong style="color: var(--text);">Оценка</strong> — итоговый балл приоритета от 0 до 1: 50% — спрос, 30% — парк, 20% — продажи.</li>
       <li><strong style="color: var(--text);">Внизу карточки</strong> — список конкретных моделей, которые покроет один SKU.</li>
@@ -390,21 +390,21 @@ const DEMAND_TOP = [
   ["Volkswagen Polo", "стойки", 170, true]
 ];
 // Иномарки legacy — топ-5
-// platform — шасси/архитектура, applicability — модели, висящие на ней
+// sales — сделок на рынке 2025 (вторичка + остатки нового, по данным Автостата)
 const PLAN_FOREIGN = [
-  {n:1, brand:"Renault", model:"Duster", cat:"наконечники", park:null, sales:null, dem:850, q:"Q3 2026", score:0.778,
+  {n:1, brand:"Renault", model:"Duster", cat:"наконечники", park:null, sales:48000, dem:850, q:"Q3 2026", score:0.778,
    platform:"Renault-Nissan B0",
    applicability:["Renault Duster I/II","Renault Sandero","Renault Logan","Nissan Terrano III","LADA Largus","Dacia Logan"]},
   {n:2, brand:"LADA", model:"Vesta", cat:"наконечники", park:750000, sales:95000, dem:580, q:"Q3 2026", score:0.603,
    platform:"LADA Vesta (B-class)",
    applicability:["LADA Vesta sedan","LADA Vesta SW","LADA Vesta SW Cross","LADA Vesta Cross","LADA Vesta NG"]},
-  {n:3, brand:"Renault", model:"Kaptur", cat:"шаровые", park:220000, sales:null, dem:470, q:"Q3 2026", score:0.568,
+  {n:3, brand:"Renault", model:"Kaptur", cat:"шаровые", park:220000, sales:18000, dem:470, q:"Q3 2026", score:0.568,
    platform:"Renault-Nissan CMF-B / B0+",
    applicability:["Renault Kaptur","Renault Arkana","Renault Duster II","Nissan Juke II","Dacia Sandero III"]},
-  {n:4, brand:"Volkswagen", model:"Polo", cat:"шаровые", park:650000, sales:null, dem:360, q:"Q4 2026", score:0.371,
+  {n:4, brand:"Volkswagen", model:"Polo", cat:"шаровые", park:650000, sales:72000, dem:360, q:"Q4 2026", score:0.371,
    platform:"VW Group MQB-A0 / PQ25",
    applicability:["VW Polo sedan","VW Polo liftback","Skoda Rapid","Skoda Fabia","Audi A1","SEAT Ibiza"]},
-  {n:5, brand:"KIA", model:"Rio", cat:"наконечники", park:950000, sales:null, dem:290, q:"Q4 2026", score:0.300,
+  {n:5, brand:"KIA", model:"Rio", cat:"наконечники", park:950000, sales:105000, dem:290, q:"Q4 2026", score:0.300,
    platform:"Hyundai-Kia BC / K2",
    applicability:["KIA Rio III/IV","KIA Rio X","Hyundai Solaris I/II","Hyundai Accent","Hyundai i20"]}
 ];
@@ -491,7 +491,7 @@ function renderPlan(containerId, rows) {
       </div>
       <div class="plan-stats">
         <div><span class="l">Платформа авто</span><strong style="font-size: 14px; line-height: 1.2;">${r.platform}</strong></div>
-        <div><span class="l">Продано в 2025</span><strong>${fmt(r.sales)}</strong></div>
+        <div><span class="l">Сделок на рынке 2025</span><strong>${fmt(r.sales)}</strong></div>
         <div><span class="l">Запросов клиентов</span><strong>${r.dem}</strong></div>
         <div><span class="l">Оценка приоритета</span><strong>${r.score.toFixed(3)}</strong></div>
       </div>
