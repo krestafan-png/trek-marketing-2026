@@ -273,13 +273,14 @@
   <h2><span class="num">04</span> План 2026: SKU к разработке (два фронта)</h2>
 
   <div class="card" style="background: var(--surface-2); margin-bottom: 12px; padding: 14px 18px; font-size: 13px; color: var(--text-dim);">
-    <strong style="color: var(--text);">Как читать таблицу:</strong>
+    <strong style="color: var(--text);">Как читать карточки:</strong>
     <ul style="padding-left: 20px; margin-top: 6px;">
-      <li><strong style="color: var(--text);">Машин в РФ</strong> — сколько таких автомобилей сейчас ездит по России. Это потенциальные клиенты на запчасть в ближайшие годы.</li>
-      <li><strong style="color: var(--text);">Продано новых в 2025</strong> — сколько таких машин продано за 2025 год. Чем больше продаж — тем больше запчастей понадобится через 2-3 года.</li>
-      <li><strong style="color: var(--text);">Спрашивали нас</strong> — сколько раз клиенты упомянули эту модель в вопросах с маркетплейсов, отзывах и чатах за 2025.</li>
-      <li><strong style="color: var(--text);">Оценка</strong> — итоговый балл приоритета от 0 до 1: 50% — спрос, 30% — парк, 20% — продажи 2025.</li>
-      <li><strong style="color: var(--text);">Все 20 позиций проверены</strong> — ни одна из них не присутствует в действующем прайсе ТРЕК (двойная проверка по полному тексту каталога).</li>
+      <li><strong style="color: var(--text);">Платформы авто</strong> — сколько разных моделей покроет один SKU за счёт общей геометрии посадки. Чем больше — тем экономически выгоднее разработка.</li>
+      <li><strong style="color: var(--text);">Продано в 2025</strong> — сколько новых машин этой модели продано за год. Будущая база на запчасти через 2–3 года.</li>
+      <li><strong style="color: var(--text);">Запросов клиентов</strong> — суммарно из чатов, маркетплейсов, отзывов и горячей линии за 2025.</li>
+      <li><strong style="color: var(--text);">Оценка</strong> — итоговый балл приоритета от 0 до 1: 50% — спрос, 30% — парк, 20% — продажи.</li>
+      <li><strong style="color: var(--text);">Полный список моделей под каждым SKU</strong> — внизу карточки в виде чипов.</li>
+      <li><strong style="color: var(--text);">Все 10 позиций проверены</strong> — ни одной нет в действующем прайсе ТРЕК.</li>
     </ul>
   </div>
 
@@ -479,7 +480,7 @@ function renderPlan(containerId, rows) {
         <span class="quarter-tag ${qClass}">${r.q}</span>
       </div>
       <div class="plan-stats">
-        <div><span class="l">Машин в РФ</span><strong>${fmt(r.park)}</strong></div>
+        <div><span class="l">Платформы авто</span><strong>${r.applicability.length}</strong></div>
         <div><span class="l">Продано в 2025</span><strong>${fmt(r.sales)}</strong></div>
         <div><span class="l">Запросов клиентов</span><strong>${r.dem}</strong></div>
         <div><span class="l">Оценка приоритета</span><strong>${r.score.toFixed(3)}</strong></div>
