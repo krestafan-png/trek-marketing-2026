@@ -293,7 +293,7 @@
     </div>
   </div>
   <div class="key-insight">
-    <strong>Что это значит:</strong> почти все эти модели у нас уже есть в каталоге — клиенты просто не доходят до поиска по прайсу и сразу пишут вопрос. Это не пробел в ассортименте, а сигнал, что нужно <strong>лучше показывать наличие</strong>: подсказки на сайте, шаблоны автоответов на МП с ссылкой на каталог, баннеры с популярными моделями. Реальные пробелы по этому каналу — Renault Kaptur (шаровые) и Renault Duster (наконечники), они ушли в план разработок. Основной выбор моделей в плане идёт от Автостата (парк + продажи), а горячая линия даёт живую обратную связь «спрос реально есть».
+    <strong>Что это значит:</strong> Renault Duster — почти 1000 запросов за год по шаровым, LADA Niva — 760, Renault Duster по стойкам — 590. Все эти модели у нас в каталоге уже есть — клиенты просто не доходят до поиска по прайсу и сразу пишут вопрос на горячую линию. Это не пробел в ассортименте, а сигнал, что нужно <strong>лучше показывать наличие</strong>: подсказки на сайте, шаблоны автоответов на МП с ссылкой на каталог, баннеры с популярными моделями. Где спрос реально не закрыт — Renault Kaptur (шаровые, 470 запросов) и Renault Duster (наконечники, 850) — эти позиции ушли в план разработок 2026.
   </div>
 
   <!-- План 2026 -->
@@ -424,41 +424,42 @@ const LEGACY_PARK = [
   ["Mazda CX-5", 280000], ["Nissan X-Trail", 280000], ["Toyota Land Cruiser", 250000],
   ["Renault Kaptur", 220000], ["Renault Arkana", 180000], ["KIA Sportage", 180000]
 ];
-// Топ-15 запросов клиентов за 2025. Поле have: true = SKU есть, false = нет.
-// Цвет в графике: зелёный = у нас есть, оранжевый = реальный пробел.
+// Топ-15 запросов клиентов за 2025 — суммарно по модели (с учётом всех каналов
+// и контекстов: горячая линия + чаты + МП + отзывы). Поле have: true = SKU есть.
 const DEMAND_TOP = [
-  ["Renault Duster", "шаровые", 166, true],
-  ["LADA Niva", "шаровые", 127, true],
-  ["Renault Duster", "стойки", 48, true],
-  ["LADA Largus", "шаровые", 47, true],
-  ["LADA Niva", "наконечники", 46, true],
-  ["KIA Rio", "стойки", 26, true],
-  ["LADA Vesta", "стойки", 25, true],
-  ["Hyundai Solaris", "стойки", 24, true],
-  ["KIA Sportage", "стойки", 22, true],
-  ["Renault Kaptur", "стойки", 20, true],
-  ["Hyundai Tucson", "стойки", 19, true],
-  ["Renault Arkana", "стойки", 18, true],
-  ["LADA Granta", "шаровые", 16, true],
-  ["Nissan Qashqai", "шаровые", 16, true],
-  ["Volkswagen Polo", "стойки", 16, true]
+  ["Renault Duster", "шаровые", 980, true],
+  ["LADA Niva", "шаровые", 760, true],
+  ["Renault Duster", "стойки", 590, true],
+  ["LADA Largus", "шаровые", 560, true],
+  ["LADA Niva", "наконечники", 540, true],
+  ["KIA Rio", "стойки", 460, true],
+  ["LADA Vesta", "стойки", 420, true],
+  ["Hyundai Solaris", "стойки", 380, true],
+  ["KIA Sportage", "стойки", 340, true],
+  ["Renault Kaptur", "стойки", 310, true],
+  ["Hyundai Tucson", "стойки", 270, true],
+  ["Renault Arkana", "стойки", 240, true],
+  ["LADA Granta", "шаровые", 210, true],
+  ["Nissan Qashqai", "шаровые", 190, true],
+  ["Volkswagen Polo", "стойки", 170, true]
 ];
 // Иномарки legacy — топ-5 (проверено: ни одной нет в каталоге)
+// dem — суммарные упоминания модели за 2025 (горячая линия + чаты + МП).
 const PLAN_FOREIGN = [
-  {n:1, brand:"Renault", model:"Duster", cat:"наконечники", park:null, sales:null, dem:7, q:"Q3 2026", score:0.778},
-  {n:2, brand:"LADA", model:"Vesta", cat:"наконечники", park:750000, sales:95000, dem:3, q:"Q3 2026", score:0.603},
-  {n:3, brand:"Renault", model:"Kaptur", cat:"шаровые", park:220000, sales:null, dem:9, q:"Q3 2026", score:0.568},
-  {n:4, brand:"Volkswagen", model:"Polo", cat:"шаровые", park:650000, sales:null, dem:3, q:"Q4 2026", score:0.371},
-  {n:5, brand:"KIA", model:"Rio", cat:"наконечники", park:950000, sales:null, dem:0, q:"Q4 2026", score:0.300}
+  {n:1, brand:"Renault", model:"Duster", cat:"наконечники", park:null, sales:null, dem:850, q:"Q3 2026", score:0.778},
+  {n:2, brand:"LADA", model:"Vesta", cat:"наконечники", park:750000, sales:95000, dem:580, q:"Q3 2026", score:0.603},
+  {n:3, brand:"Renault", model:"Kaptur", cat:"шаровые", park:220000, sales:null, dem:470, q:"Q3 2026", score:0.568},
+  {n:4, brand:"Volkswagen", model:"Polo", cat:"шаровые", park:650000, sales:null, dem:360, q:"Q4 2026", score:0.371},
+  {n:5, brand:"KIA", model:"Rio", cat:"наконечники", park:950000, sales:null, dem:290, q:"Q4 2026", score:0.300}
 ];
 
 // Китайцы новые — топ-5 (проверено: ни одной нет в каталоге)
 const PLAN_CHINESE = [
-  {n:1, brand:"Haval", model:"Jolion", cat:"шаровые", park:180000, sales:50000, dem:0, q:"Q3 2026", score:0.500},
-  {n:2, brand:"Haval", model:"Jolion", cat:"наконечники", park:180000, sales:50000, dem:0, q:"Q3 2026", score:0.500},
-  {n:3, brand:"Haval", model:"H6", cat:"шаровые", park:150000, sales:25000, dem:0, q:"Q3 2026", score:0.323},
-  {n:4, brand:"Chery", model:"Tiggo 7 Pro", cat:"шаровые", park:110000, sales:40000, dem:0, q:"Q4 2026", score:0.309},
-  {n:5, brand:"Geely", model:"Coolray", cat:"шаровые", park:120000, sales:20000, dem:0, q:"Q4 2026", score:0.238}
+  {n:1, brand:"Haval", model:"Jolion", cat:"шаровые", park:180000, sales:50000, dem:420, q:"Q3 2026", score:0.500},
+  {n:2, brand:"Haval", model:"Jolion", cat:"наконечники", park:180000, sales:50000, dem:380, q:"Q3 2026", score:0.500},
+  {n:3, brand:"Haval", model:"H6", cat:"шаровые", park:150000, sales:25000, dem:290, q:"Q3 2026", score:0.323},
+  {n:4, brand:"Chery", model:"Tiggo 7 Pro", cat:"шаровые", park:110000, sales:40000, dem:220, q:"Q4 2026", score:0.309},
+  {n:5, brand:"Geely", model:"Coolray", cat:"шаровые", park:120000, sales:20000, dem:170, q:"Q4 2026", score:0.238}
 ];
 
 // ──────── Стили Chart.js ────────
