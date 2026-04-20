@@ -285,11 +285,15 @@
     </div>
   </div>
   <div class="card" style="margin-top: 16px;">
-    <div class="chart-title" style="font-size: 14px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 12px;">Топ-моделей, которые спрашивают клиенты — а у нас под них нет SKU</div>
+    <div class="chart-title" style="font-size: 14px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 12px;">Топ-15 моделей, про которые клиенты чаще всего спрашивают на горячей линии</div>
     <canvas id="chartDemand"></canvas>
+    <div style="margin-top: 12px; font-size: 13px; color: var(--text-dim); display: flex; gap: 18px; flex-wrap: wrap;">
+      <span><span style="display: inline-block; width: 12px; height: 12px; background: var(--green); border-radius: 2px; vertical-align: middle; margin-right: 6px;"></span>SKU уже есть в каталоге ТРЕК</span>
+      <span><span style="display: inline-block; width: 12px; height: 12px; background: var(--accent); border-radius: 2px; vertical-align: middle; margin-right: 6px;"></span>SKU пока нет — кандидат в план</span>
+    </div>
   </div>
   <div class="key-insight">
-    <strong>Как читать:</strong> на графике — только <strong>истинные пробелы</strong>: модели, про которые клиенты регулярно спрашивают на горячей линии, а у нас в прайсе под них пока ничего нет. Лидер — Renault Kaptur (шаровые), 9 запросов; следом Renault Duster (наконечники), 7 запросов. Цифры небольшие, потому что клиенты редко указывают и марку машины, и название детали в одном сообщении. Поэтому план опирается прежде всего на парк и продажи Автостата, а запросы клиентов — это живая проверка «да, эта модель действительно интересна рынку».
+    <strong>Что это значит:</strong> почти все эти модели у нас уже есть в каталоге — клиенты просто не доходят до поиска по прайсу и сразу пишут вопрос. Это не пробел в ассортименте, а сигнал, что нужно <strong>лучше показывать наличие</strong>: подсказки на сайте, шаблоны автоответов на МП с ссылкой на каталог, баннеры с популярными моделями. Реальные пробелы по этому каналу — Renault Kaptur (шаровые) и Renault Duster (наконечники), они ушли в план разработок. Основной выбор моделей в плане идёт от Автостата (парк + продажи), а горячая линия даёт живую обратную связь «спрос реально есть».
   </div>
 
   <!-- План 2026 -->
@@ -420,24 +424,24 @@ const LEGACY_PARK = [
   ["Mazda CX-5", 280000], ["Nissan X-Trail", 280000], ["Toyota Land Cruiser", 250000],
   ["Renault Kaptur", 220000], ["Renault Arkana", 180000], ["KIA Sportage", 180000]
 ];
-// Только ИСТИННЫЕ гэпы: спрос есть, а SKU в каталоге ТРЕК НЕТ
-// (двойная проверка через has_sku — учитывает алиасы брендов VW/Volkswagen,
-// КИА/KIA, Лада/LADA и пр.)
+// Топ-15 запросов клиентов за 2025. Поле have: true = SKU есть, false = нет.
+// Цвет в графике: зелёный = у нас есть, оранжевый = реальный пробел.
 const DEMAND_TOP = [
-  ["Renault Kaptur", "шаровые", 9],
-  ["Renault Duster", "наконечники", 7],
-  ["LADA Vesta", "наконечники", 3],
-  ["Renault Arkana", "шаровые", 3],
-  ["Skoda Octavia", "шаровые", 3],
-  ["Volkswagen Polo", "шаровые", 3],
-  ["Hyundai Santa Fe", "стойки", 2],
-  ["Nissan Note", "шаровые", 2],
-  ["Toyota Corolla", "наконечники", 2],
-  ["Toyota Corolla", "шаровые", 2],
-  ["KIA Sportage", "шаровые", 1],
-  ["Renault Kaptur", "наконечники", 1],
-  ["Skoda Rapid", "шаровые", 1],
-  ["Toyota Camry", "шаровые", 1]
+  ["Renault Duster", "шаровые", 166, true],
+  ["LADA Niva", "шаровые", 127, true],
+  ["Renault Duster", "стойки", 48, true],
+  ["LADA Largus", "шаровые", 47, true],
+  ["LADA Niva", "наконечники", 46, true],
+  ["KIA Rio", "стойки", 26, true],
+  ["LADA Vesta", "стойки", 25, true],
+  ["Hyundai Solaris", "стойки", 24, true],
+  ["KIA Sportage", "стойки", 22, true],
+  ["Renault Kaptur", "стойки", 20, true],
+  ["Hyundai Tucson", "стойки", 19, true],
+  ["Renault Arkana", "стойки", 18, true],
+  ["LADA Granta", "шаровые", 16, true],
+  ["Nissan Qashqai", "шаровые", 16, true],
+  ["Volkswagen Polo", "стойки", 16, true]
 ];
 // Иномарки legacy — топ-5 (проверено: ни одной нет в каталоге)
 const PLAN_FOREIGN = [
@@ -491,7 +495,11 @@ new Chart(document.getElementById('chartDemand'), {
   type: 'bar',
   data: {
     labels: DEMAND_TOP.map(x => `${x[0]} · ${x[1]}`),
-    datasets: [{ data: DEMAND_TOP.map(x => x[2]), backgroundColor: '#a78bfa', borderRadius: 4 }]
+    datasets: [{
+      data: DEMAND_TOP.map(x => x[2]),
+      backgroundColor: DEMAND_TOP.map(x => x[3] ? '#5cd97f' : '#ff6b35'),
+      borderRadius: 4
+    }]
   },
   options: chartCommon
 });
