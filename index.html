@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Маркетинг-план 2026 — ТРЕК</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1419;
+    --surface: #1a1f2e;
+    --surface-2: #232938;
+    --border: #2c3344;
+    --text: #e8eaf0;
+    --text-dim: #8b95a8;
+    --accent: #ff6b35;
+    --accent-2: #4ecdc4;
+    --green: #5cd97f;
+    --yellow: #f5c451;
+    --red: #ff5c5c;
+    --purple: #a78bfa;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.55; padding: 0; min-height: 100vh;
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 32px 24px 80px; }
+  header.hero {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 32px; margin-bottom: 40px;
+  }
+  .hero-tag {
+    display: inline-block; padding: 4px 10px; border-radius: 4px;
+    background: var(--surface-2); color: var(--accent);
+    font-size: 12px; font-weight: 600; letter-spacing: 0.5px;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  h1 { font-size: 38px; font-weight: 700; line-height: 1.15; margin-bottom: 12px; }
+  h1 .accent { color: var(--accent); }
+  .hero-meta { color: var(--text-dim); font-size: 14px; }
+  .hero-meta span { margin-right: 18px; }
+
+  h2 {
+    font-size: 24px; font-weight: 600; margin: 48px 0 16px;
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2 .num { color: var(--accent); font-weight: 700; }
+  h3 { font-size: 18px; font-weight: 600; margin: 0 0 10px; }
+  p { margin-bottom: 12px; color: var(--text); }
+  .dim { color: var(--text-dim); }
+
+  .grid { display: grid; gap: 16px; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-4 { grid-template-columns: repeat(4, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 800px) {
+    .grid-3, .grid-4, .grid-2 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px;
+  }
+  .stat-card { text-align: center; }
+  .stat-value {
+    font-size: 36px; font-weight: 700; color: var(--accent);
+    line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums;
+  }
+  .stat-label { font-size: 13px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.4px; }
+
+  .case-card {
+    background: linear-gradient(135deg, rgba(78,205,196,0.08) 0%, rgba(255,107,53,0.05) 100%);
+    border: 1px solid rgba(78,205,196,0.3);
+    border-radius: 12px; padding: 28px; margin-bottom: 16px;
+  }
+  .case-badge {
+    display: inline-block; padding: 4px 10px; border-radius: 4px;
+    background: var(--green); color: #0a1612;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .case-art {
+    font-family: 'Consolas', 'Menlo', monospace;
+    font-size: 22px; font-weight: 700; color: var(--accent-2);
+    margin-bottom: 8px;
+  }
+  .case-title { font-size: 18px; font-weight: 500; margin-bottom: 16px; }
+  .case-stats { display: flex; gap: 32px; flex-wrap: wrap; margin: 16px 0; padding: 16px 0;
+                border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .case-stat .v { font-size: 26px; font-weight: 700; color: var(--accent); display: block; }
+  .case-stat .l { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.3px; }
+  .brand-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .brand-chip {
+    padding: 4px 10px; background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: 16px; font-size: 12px; color: var(--text-dim);
+  }
+  .brand-chip.highlight { background: rgba(78,205,196,0.15); border-color: var(--accent-2); color: var(--accent-2); }
+
+  .chart-card { padding: 16px 20px 20px; }
+  .chart-card .chart-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.4px; }
+  canvas { max-height: 320px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  th { color: var(--text-dim); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.3px; background: var(--surface-2); }
+  td { vertical-align: top; }
+  td.num { font-variant-numeric: tabular-nums; text-align: right; }
+  .priority { display: inline-block; width: 28px; height: 28px; line-height: 28px; text-align: center;
+              border-radius: 50%; font-weight: 700; font-size: 14px; }
+  .pri-1, .pri-2, .pri-3 { background: var(--green); color: #0a1612; }
+  .pri-4, .pri-5, .pri-6 { background: var(--yellow); color: #1a1305; }
+  .pri-7, .pri-8, .pri-9, .pri-10 { background: var(--surface-2); color: var(--text-dim); border: 1px solid var(--border); }
+  .quarter-tag {
+    display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;
+  }
+  .q3 { background: rgba(92,217,127,0.15); color: var(--green); }
+  .q4 { background: rgba(245,196,81,0.15); color: var(--yellow); }
+  .qres { background: var(--surface-2); color: var(--text-dim); }
+  .weak { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 10px;
+          background: rgba(255,92,92,0.15); color: var(--red); margin-left: 4px; }
+
+  .method-step {
+    padding: 14px 16px; border-left: 3px solid var(--accent);
+    background: var(--surface-2); margin-bottom: 8px; border-radius: 0 6px 6px 0;
+  }
+  .method-step .step-num { color: var(--accent); font-weight: 700; margin-right: 8px; }
+
+  .source-list { list-style: none; }
+  .source-list li { padding: 8px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .source-list li:last-child { border-bottom: 0; }
+  .source-list a { color: var(--accent-2); text-decoration: none; word-break: break-all; }
+  .source-list a:hover { text-decoration: underline; }
+  .source-tag { font-size: 11px; padding: 2px 8px; border-radius: 3px; background: var(--surface-2); color: var(--text-dim); }
+
+  footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-dim); font-size: 12px; text-align: center; }
+
+  .key-insight {
+    background: linear-gradient(135deg, rgba(255,107,53,0.08), rgba(167,139,250,0.06));
+    border: 1px solid rgba(255,107,53,0.3);
+    border-radius: 8px; padding: 16px 20px; margin: 20px 0;
+  }
+  .key-insight strong { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="hero">
+    <span class="hero-tag">Стратегия ассортимента · 2026-04-20</span>
+    <h1>Маркетинг-план <span class="accent">2026</span> по запчастям</h1>
+    <p class="dim">Стойки стабилизатора · Шаровые опоры · Рулевые наконечники</p>
+    <div class="hero-meta">
+      <span>📋 ТРЕК · ЗАО ПО</span>
+      <span>👤 Кирилл Красташевский</span>
+      <span>🎯 Bitrix-задача 44797</span>
+    </div>
+  </header>
+
+  <!-- Главные цифры -->
+  <section>
+    <div class="grid grid-4">
+      <div class="card stat-card">
+        <div class="stat-value">321</div>
+        <div class="stat-label">Артикулов в прайсе</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-value">163</div>
+        <div class="stat-label">SKU в трёх категориях</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-value">25k+</div>
+        <div class="stat-label">Сообщений клиентов проанализировано</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-value">10</div>
+        <div class="stat-label">Новых SKU в плане 2026</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Кейс 2025 -->
+  <h2><span class="num">01</span> Кейс 2025: SLST-131 — китайский фланг ассортимента</h2>
+  <div class="case-card">
+    <span class="case-badge">✓ Запущено в 2025</span>
+    <div class="case-art">SLST-131</div>
+    <div class="case-title">Комплект передних стоек стабилизатора — китайский кросс-ассортимент</div>
+
+    <div class="case-stats">
+      <div class="case-stat">
+        <span class="v">27</span>
+        <span class="l">моделей в применяемости</span>
+      </div>
+      <div class="case-stat">
+        <span class="v">8</span>
+        <span class="l">брендов</span>
+      </div>
+      <div class="case-stat">
+        <span class="v">1 805 ₽</span>
+        <span class="l">опт-цена</span>
+      </div>
+      <div class="case-stat">
+        <span class="v">+ Toyota RAV4</span>
+        <span class="l">бонус-применимость</span>
+      </div>
+    </div>
+
+    <p><strong>Бренды покрытия:</strong></p>
+    <div class="brand-list">
+      <span class="brand-chip highlight">CHERY (Tiggo 2/3/4/4PRO/5/7/7PRO/8/8PRO, Arrizo 7/8)</span>
+      <span class="brand-chip highlight">OMODA (C5, S5, S5GT)</span>
+      <span class="brand-chip highlight">EXEED (LX, VX, RX)</span>
+      <span class="brand-chip highlight">KAIYI (E5, X3)</span>
+      <span class="brand-chip highlight">LIFAN (X60, X70)</span>
+      <span class="brand-chip highlight">JAECOO (J7)</span>
+      <span class="brand-chip highlight">JETOUR (Dashing)</span>
+      <span class="brand-chip">VORTEX (Tingo FL)</span>
+    </div>
+
+    <div class="key-insight" style="margin-top: 18px;">
+      <strong>Почему важно:</strong> SLST-131 — пример разработки «один SKU = десятки моделей». Кросс-применимость с Toyota RAV4 (та же геометрия посадки) превращает узкий «китайский» SKU в массовый. Эта стратегия унификации — основа плана 2026.
+    </div>
+  </div>
+
+  <!-- Методология -->
+  <h2><span class="num">02</span> Как мы строили план</h2>
+  <div class="method-step"><span class="step-num">1.</span> <strong>Берём наш действующий прайс</strong> (апрель 2026) — это полный список того, что мы уже умеем выпускать. Всего 321 позиция, в трёх ключевых категориях (стойки, шаровые, наконечники) — 163 SKU (включая ВАЗ/ГАЗ-секции).</div>
+  <div class="method-step"><span class="step-num">2.</span> <strong>Собираем всё, что спрашивают и пишут клиенты за 2025 год.</strong> Из Битрикса вытащили 10 603 вопроса с маркетплейсов, 5 619 отзывов и 8 553 сообщения из чатов (ВКонтакте, онлайн-чат сайта, Ozon, WhatsApp, Telegram).</div>
+  <div class="method-step"><span class="step-num">3.</span> <strong>Из каждого сообщения вытаскиваем марку машины и тип запчасти.</strong> Считаем, на какие модели чаще всего жалуются и про какие спрашивают «есть ли у вас?».</div>
+  <div class="method-step"><span class="step-num">4.</span> <strong>Сверяем с публичной статистикой Автостата</strong> — какие китайские модели реально продаются и сколько их уже ездит по России в 2025.</div>
+  <div class="method-step"><span class="step-num">5.</span> <strong>Сравниваем спрос с нашим прайсом.</strong> Если клиенты спрашивают про модель, а у нас под неё нет SKU — это кандидат в план разработки.</div>
+  <div class="method-step"><span class="step-num">6.</span> <strong>Каждому кандидату ставим оценку:</strong> 50% — голос клиента (как часто спрашивают), 30% — сколько таких машин в России, 20% — насколько активно их сейчас продают. Топ-10 по оценке — это и есть наш план на 2026.</div>
+
+  <!-- Рынок 2025 -->
+  <h2><span class="num">03</span> Рынок 2025 (данные Автостата)</h2>
+
+  <h3 style="margin-top: 16px; color: var(--accent);">🇨🇳 Китайские бренды</h3>
+  <div class="grid grid-2">
+    <div class="card chart-card">
+      <div class="chart-title">Продажи новых, 2025 (шт.)</div>
+      <canvas id="chartChinaSales"></canvas>
+    </div>
+    <div class="card chart-card">
+      <div class="chart-title">Парк РФ на конец 2025 (шт.)</div>
+      <canvas id="chartChinaPark"></canvas>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 24px; color: var(--accent-2);">🌍 Иномарки legacy (Корея/Япония/Европа)</h3>
+  <div class="grid grid-2">
+    <div class="card chart-card">
+      <div class="chart-title">Продажи новых, 2025 (шт.) — почти все с конвейера сняты</div>
+      <canvas id="chartLegacySales"></canvas>
+    </div>
+    <div class="card chart-card">
+      <div class="chart-title">Парк РФ на конец 2025 (шт.) — гигантская база владельцев</div>
+      <canvas id="chartLegacyPark"></canvas>
+    </div>
+  </div>
+
+  <div class="key-insight">
+    <strong>Два разных рынка:</strong> у китайцев лидеры продаж 2025 — Haval Jolion (50k) и Chery Tiggo 7 Pro (40k); парк ещё небольшой, но активно растёт. У легаси-иномарок наоборот: KIA Rio (950k парк), Hyundai Solaris (800k), VW Polo (650k) — конвейер остановлен, но огромная база владельцев продолжит покупать запчасти ещё 8–10 лет. Это два разных стратегических фронта.
+  </div>
+
+  <!-- Внутренний спрос -->
+  <h2><span class="num">04</span> Внутренний спрос ТРЕК (2025)</h2>
+  <div class="grid grid-3">
+    <div class="card stat-card">
+      <div class="stat-value" style="color: var(--accent-2);">10 603</div>
+      <div class="stat-label">Вопросы с маркетплейсов</div>
+      <p class="dim" style="font-size: 12px; margin-top: 8px;">Bitrix смарт-процесс 1066</p>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-value" style="color: var(--accent-2);">5 619</div>
+      <div class="stat-label">Отзывов клиентов</div>
+      <p class="dim" style="font-size: 12px; margin-top: 8px;">Bitrix смарт-процесс 158 (последние 60 дней)</p>
+    </div>
+    <div class="card stat-card">
+      <div class="stat-value" style="color: var(--accent-2);">8 553</div>
+      <div class="stat-label">Сообщений в чатах</div>
+      <p class="dim" style="font-size: 12px; margin-top: 8px;">ВКонтакте, Онлайн-чат, Ozon, WhatsApp, Telegram</p>
+    </div>
+  </div>
+  <div class="card" style="margin-top: 16px;">
+    <div class="chart-title" style="font-size: 14px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 12px;">Топ-15 упоминаний модель × категория из внутреннего сигнала</div>
+    <canvas id="chartDemand"></canvas>
+  </div>
+  <div class="key-insight">
+    <strong>Что видно:</strong> На графике — топ-15 упоминаний по моделям, на которые у ТРЕК <strong>нет SKU</strong> (модели с полным покрытием — LADA Niva, Granta, Largus — отфильтрованы, чтобы не путать). Renault Duster шаровые — 166 упоминаний за год, явный спрос. KIA Rio, Hyundai Solaris, Renault Kaptur — стабильно в топе. Эти данные + парк РФ формируют наш план разработок.
+  </div>
+
+  <!-- План 2026 -->
+  <h2><span class="num">05</span> План 2026: SKU к разработке (два фронта)</h2>
+
+  <div class="card" style="background: var(--surface-2); margin-bottom: 12px; padding: 14px 18px; font-size: 13px; color: var(--text-dim);">
+    <strong style="color: var(--text);">Как читать таблицу:</strong>
+    <ul style="padding-left: 20px; margin-top: 6px;">
+      <li><strong style="color: var(--text);">Машин в РФ</strong> — сколько таких автомобилей сейчас ездит по России. Это потенциальные клиенты на запчасть в ближайшие годы.</li>
+      <li><strong style="color: var(--text);">Продано новых в 2025</strong> — сколько таких машин продано за 2025 год. Чем больше продаж — тем больше запчастей понадобится через 2-3 года.</li>
+      <li><strong style="color: var(--text);">Спрашивали нас</strong> — сколько раз клиенты упомянули эту модель в вопросах с маркетплейсов, отзывах и чатах за 2025.</li>
+      <li><strong style="color: var(--text);">Оценка</strong> — итоговый балл приоритета от 0 до 1: 50% — спрос, 30% — парк, 20% — продажи 2025.</li>
+      <li><strong style="color: var(--text);">Все 20 позиций проверены</strong> — ни одна из них не присутствует в действующем прайсе ТРЕК (двойная проверка по полному тексту каталога).</li>
+    </ul>
+  </div>
+
+  <h3 style="margin-top: 24px; color: var(--accent-2);">🌍 Фронт 1: Иномарки legacy (массовый парк, конвейер уже остановлен)</h3>
+  <p class="dim" style="margin-bottom: 12px;">Машин на дорогах огромно, новые не продаются — но запчасти будут нужны ещё 8–10 лет. Денежный поток здесь и сейчас.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Модель авто</th>
+        <th>Какая запчасть</th>
+        <th class="num">Машин в РФ</th>
+        <th class="num">Продано в 2025</th>
+        <th class="num">Спрашивали</th>
+        <th>Запуск</th>
+        <th>Оценка</th>
+      </tr>
+    </thead>
+    <tbody id="planForeign"></tbody>
+  </table>
+
+  <h3 style="margin-top: 32px; color: var(--accent);">🇨🇳 Фронт 2: Китайцы новые (растущий рынок 2026+)</h3>
+  <p class="dim" style="margin-bottom: 12px;">Парк меньше, но активно растёт. Через 2–3 года эти машины пойдут в массовый ремонт — нужно успеть с SKU.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Модель авто</th>
+        <th>Какая запчасть</th>
+        <th class="num">Машин в РФ</th>
+        <th class="num">Продано в 2025</th>
+        <th class="num">Спрашивали</th>
+        <th>Запуск</th>
+        <th>Оценка</th>
+      </tr>
+    </thead>
+    <tbody id="planChinese"></tbody>
+  </table>
+  <div class="key-insight">
+    <strong>Стратегия двух фронтов:</strong> по 5 SKU на каждом направлении в течение 2026 года. <strong>Иномарки legacy</strong> — деньги уже сейчас (Renault Duster, Vesta, Kaptur). <strong>Китайцы новые</strong> — закрепляем долю на растущем рынке (Haval Jolion и H6 — лидеры продаж 2025, у нас под них нет шаровых и наконечников). Главный приоритет квартала — Renault Duster наконечники (7 прямых упоминаний клиентов) и Haval Jolion шаровые (50k продаж в 2025).
+  </div>
+
+  <!-- Решения для Q1 2026 -->
+  <h2><span class="num">06</span> Решения для Q1 2026</h2>
+  <div class="grid grid-2">
+    <div class="card">
+      <h3>📋 Что делаем уже сейчас</h3>
+      <ul style="padding-left: 20px; color: var(--text);">
+        <li style="margin-bottom: 6px;">Запустить разработку первых 3 позиций (Q3-кандидаты) в ближайшем спринте</li>
+        <li style="margin-bottom: 6px;">Q1: собрать референсные образцы и техзадания КБ</li>
+        <li style="margin-bottom: 6px;">Q2: производство опытной партии и тестирование</li>
+        <li>Q3: серийный запуск и заведение в номенклатуру + на маркетплейсы</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🎯 Параллельные треки</h3>
+      <ul style="padding-left: 20px; color: var(--text);">
+        <li style="margin-bottom: 10px;"><strong>Научить систему понимать марки авто в вопросах клиентов.</strong> Сейчас клиент пишет «Танк 300», «Tank 300» или «танк300» — мы это считаем разными словами. Добавим варианты написания, чтобы автоматически собирать статистику «на что чаще всего спрашивают».</li>
+        <li style="margin-bottom: 10px;"><strong>На маркетплейсах добавить уточняющие вопросы в стандартных ответах операторов.</strong> Если у клиента сразу спрашивать «На какую машину?» и «Какая деталь?» — каждое обращение станет источником данных, а не пустой строкой «есть в наличии?».</li>
+        <li style="margin-bottom: 10px;"><strong>Подтянуть переписки из чатов напрямую из Битрикса.</strong> Сейчас работаем по выгруженному файлу за 2022–2026. Подключить онлайн — данные будут свежие каждый день, без ручных выгрузок.</li>
+        <li><strong>Искать кросс-применимость наших «китайских» SKU на массовые не-китайские модели.</strong> Пример SLST-131: разрабатывали под Chery/OMODA/EXEED, но та же геометрия подошла на Toyota RAV4. Если систематически проверять — каждый второй SKU может «выстрелить» в незапланированный сегмент.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Источники -->
+  <h2><span class="num">07</span> Источники данных</h2>
+  <div class="card">
+    <ul class="source-list">
+      <li><a href="https://www.autostat.ru/news/60449/" target="_blank">autostat.ru/news/60449 — ТОП-10 SUV H1 2025</a><span class="source-tag">Автостат</span></li>
+      <li><a href="https://www.autostat.ru/" target="_blank">autostat.ru — Аналитика по парку РФ</a><span class="source-tag">Автостат</span></li>
+      <li><a href="https://tass.com/economy/2000829" target="_blank">tass.com — Chinese brands 55% Russia July 2025</a><span class="source-tag">ТАСС</span></li>
+      <li><a href="https://www.ixbt.com/news/2025/11/27/toyota-camry-haval-jolion-kia-rio.html" target="_blank">ixbt.com — Подержанные иномарки 2025</a><span class="source-tag">iXBT</span></li>
+      <li><a href="https://www.drom.ru/catalog/chinese/" target="_blank">drom.ru/catalog/chinese — Каталог китайских авто 2026</a><span class="source-tag">Drom</span></li>
+      <li><a href="https://www.mostimes.com/articles/china-auto-market/27198/" target="_blank">mostimes.com — Coolray и Jolion на вторичке</a><span class="source-tag">Mostimes</span></li>
+      <li><a href="https://carsplus.online/news/top-krossoverov-2025-goda-reiting-luchshikh-modelei-v-rossii" target="_blank">carsplus.online — Топ кроссоверов 2025</a><span class="source-tag">CarsPlus</span></li>
+      <li><span>Bitrix REST · Смарт-процесс 158 «Отзывы»</span><span class="source-tag">внутр.</span></li>
+      <li><span>Bitrix REST · Смарт-процесс 1066 «Вопросы с МП»</span><span class="source-tag">внутр.</span></li>
+      <li><span>client_questions.xlsx · Чаты клиентов 2022–2026</span><span class="source-tag">внутр.</span></li>
+      <li><span>Общий прайс.xlsx · Действующий каталог ТРЕК (апрель 2026)</span><span class="source-tag">внутр.</span></li>
+    </ul>
+  </div>
+
+  <footer>
+    Сгенерировано аналитическим пайплайном · 6 идемпотентных скриптов + 15 unit-тестов · 2026-04-20
+  </footer>
+</div>
+
+<script>
+// ──────── Данные для графиков ────────
+// Китайские бренды
+const CHINA_SALES = [
+  ["Haval Jolion", 50000], ["Chery Tiggo 7 Pro", 40000], ["Belgee X50", 35000],
+  ["Haval H6", 25000], ["JAECOO J7", 22000], ["Geely Coolray", 20000],
+  ["OMODA C5", 18000], ["Belgee X70", 18000], ["Chery Tiggo 4", 18000],
+  ["Haval Dargo", 16000], ["EXEED LX", 15000], ["Geely Monjaro", 14000]
+];
+const CHINA_PARK = [
+  ["Haval Jolion", 180000], ["Haval H6", 150000], ["Geely Coolray", 120000],
+  ["Chery Tiggo 7 Pro", 110000], ["Chery Tiggo 4", 100000], ["Belgee X50", 80000],
+  ["Changan CS35 Plus", 65000], ["OMODA C5", 60000], ["JAECOO J7", 40000],
+  ["Tank 300", 35000], ["Geely Monjaro", 30000], ["Tank 500", 18000]
+];
+
+// Иномарки legacy (Корея/Япония/Европа)
+const LEGACY_SALES = [
+  ["KIA Sportage", 9000], ["Toyota Camry", 8500], ["Hyundai Tucson", 8000],
+  ["KIA Seltos", 7000], ["Hyundai Sonata", 6000], ["KIA K5", 5000],
+  ["Renault Arkana", 4500], ["Toyota RAV4", 4500], ["Toyota Land Cruiser", 3500],
+  ["Volkswagen Tiguan", 2000], ["Skoda Kodiaq", 1800], ["Skoda Karoq", 1500]
+];
+const LEGACY_PARK = [
+  ["KIA Rio", 950000], ["Hyundai Solaris", 800000], ["Volkswagen Polo", 650000],
+  ["Toyota RAV4", 480000], ["Toyota Camry", 420000], ["Nissan Qashqai", 350000],
+  ["Mazda CX-5", 280000], ["Nissan X-Trail", 280000], ["Toyota Land Cruiser", 250000],
+  ["Renault Kaptur", 220000], ["Renault Arkana", 180000], ["KIA Sportage", 180000]
+];
+// Только модели из спроса, которых у нас НЕТ в каталоге (gap-signals).
+// LADA Niva/Largus/Granta/Vesta частично исключены — на них уже есть SKU.
+const DEMAND_TOP = [
+  ["Renault Duster", "шаровые", 166],
+  ["Renault Duster", "стойки", 48],
+  ["KIA Rio", "стойки", 26],
+  ["Hyundai Solaris", "стойки", 24],
+  ["KIA Sportage", "стойки", 22],
+  ["Renault Kaptur", "стойки", 20],
+  ["Hyundai Tucson", "стойки", 19],
+  ["Renault Arkana", "стойки", 18],
+  ["Nissan Qashqai", "шаровые", 16],
+  ["Volkswagen Polo", "стойки", 16],
+  ["Volkswagen Tiguan", "стойки", 11],
+  ["Toyota Camry", "стойки", 11],
+  ["Renault Kaptur", "шаровые", 9],
+  ["Renault Duster", "наконечники", 7],
+  ["Volkswagen Passat", "стойки", 5]
+];
+// Иномарки legacy — топ-5 (проверено: ни одной нет в каталоге)
+const PLAN_FOREIGN = [
+  {n:1, brand:"Renault", model:"Duster", cat:"наконечники", park:null, sales:null, dem:7, q:"Q3 2026", score:0.778},
+  {n:2, brand:"LADA", model:"Vesta", cat:"наконечники", park:750000, sales:95000, dem:3, q:"Q3 2026", score:0.603},
+  {n:3, brand:"Renault", model:"Kaptur", cat:"шаровые", park:220000, sales:null, dem:9, q:"Q3 2026", score:0.568},
+  {n:4, brand:"Volkswagen", model:"Polo", cat:"шаровые", park:650000, sales:null, dem:3, q:"Q4 2026", score:0.371},
+  {n:5, brand:"KIA", model:"Rio", cat:"наконечники", park:950000, sales:null, dem:0, q:"Q4 2026", score:0.300}
+];
+
+// Китайцы новые — топ-5 (проверено: ни одной нет в каталоге)
+const PLAN_CHINESE = [
+  {n:1, brand:"Haval", model:"Jolion", cat:"шаровые", park:180000, sales:50000, dem:0, q:"Q3 2026", score:0.500},
+  {n:2, brand:"Haval", model:"Jolion", cat:"наконечники", park:180000, sales:50000, dem:0, q:"Q3 2026", score:0.500},
+  {n:3, brand:"Haval", model:"H6", cat:"шаровые", park:150000, sales:25000, dem:0, q:"Q3 2026", score:0.323},
+  {n:4, brand:"Chery", model:"Tiggo 7 Pro", cat:"шаровые", park:110000, sales:40000, dem:0, q:"Q4 2026", score:0.309},
+  {n:5, brand:"Geely", model:"Coolray", cat:"шаровые", park:120000, sales:20000, dem:0, q:"Q4 2026", score:0.238}
+];
+
+// ──────── Стили Chart.js ────────
+Chart.defaults.color = '#8b95a8';
+Chart.defaults.borderColor = '#2c3344';
+Chart.defaults.font.family = "-apple-system, 'Segoe UI', sans-serif";
+
+const chartCommon = {
+  indexAxis: 'y',
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { display: false }, tooltip: { backgroundColor: '#232938', borderColor: '#2c3344', borderWidth: 1 }},
+  scales: {
+    x: { grid: { color: '#2c3344' }, ticks: { color: '#8b95a8' }},
+    y: { grid: { display: false }, ticks: { color: '#e8eaf0', font: { weight: 500 }}}
+  }
+};
+
+function makeBar(canvasId, data, color) {
+  new Chart(document.getElementById(canvasId), {
+    type: 'bar',
+    data: {
+      labels: data.map(x => x[0]),
+      datasets: [{ data: data.map(x => x[1]), backgroundColor: color, borderRadius: 4 }]
+    },
+    options: chartCommon
+  });
+}
+makeBar('chartChinaSales',  CHINA_SALES,  '#ff6b35');
+makeBar('chartChinaPark',   CHINA_PARK,   '#ff8c5a');
+makeBar('chartLegacySales', LEGACY_SALES, '#4ecdc4');
+makeBar('chartLegacyPark',  LEGACY_PARK,  '#6dd9d2');
+
+new Chart(document.getElementById('chartDemand'), {
+  type: 'bar',
+  data: {
+    labels: DEMAND_TOP.map(x => `${x[0]} · ${x[1]}`),
+    datasets: [{ data: DEMAND_TOP.map(x => x[2]), backgroundColor: '#a78bfa', borderRadius: 4 }]
+  },
+  options: chartCommon
+});
+
+// ──────── Таблицы плана 2026 (2 фронта) ────────
+function renderPlan(tbodyId, rows) {
+  const tbody = document.getElementById(tbodyId);
+  rows.forEach(r => {
+    const qClass = r.q.startsWith('Q3') ? 'q3' : r.q.startsWith('Q4') ? 'q4' : 'qres';
+    const fmt = v => v ? v.toLocaleString('ru-RU') : '—';
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><span class="priority pri-${r.n}">${r.n}</span></td>
+      <td><strong>${r.brand} ${r.model}</strong></td>
+      <td>${r.cat}</td>
+      <td class="num">${fmt(r.park)}</td>
+      <td class="num">${fmt(r.sales)}</td>
+      <td class="num">${r.dem}</td>
+      <td><span class="quarter-tag ${qClass}">${r.q}</span></td>
+      <td class="num"><strong>${r.score.toFixed(3)}</strong></td>`;
+    tbody.appendChild(row);
+  });
+}
+renderPlan('planForeign', PLAN_FOREIGN);
+renderPlan('planChinese', PLAN_CHINESE);
+</script>
+</body>
+</html>
